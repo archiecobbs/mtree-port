@@ -22,7 +22,7 @@ Release:        1
 License:        BSD
 Summary:        Tool for creating and verifying file hierarchies
 Group:          System/Utilities
-Source:         mtree-port-1.0.tar.gz
+Source:         mtree-1.0.tar.gz
 URL:            http://www.freebsd.org./
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 BuildRequires:  libopenssl-devel
@@ -50,7 +50,7 @@ rm -rf ${RPM_BUILD_ROOT}
 %files
 %attr(0755,root,root) %{_bindir}/%{name}
 %attr(0644,root,root) %{_mandir}/man5/%{name}.5.gz
-%attr(0644,root,root) %{_mandir}/man5/%{name}.8.gz
+%attr(0644,root,root) %{_mandir}/man8/%{name}.8.gz
 %defattr(0644,root,root,0755)
 %doc %{_datadir}/doc/packages/%{name}
 
