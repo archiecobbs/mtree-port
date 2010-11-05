@@ -1,0 +1,13 @@
+mtree - Utility for creating and verifying file hierarchies
+
+This is a port of the BSD mtree(1) utility.
+
+See INSTALL for installation instructions.
+
+See COPYING for license.
+
+See CHANGES for change history.
+
+Enjoy!
+
+$Id$

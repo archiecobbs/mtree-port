@@ -1,0 +1,16 @@
+
+Simplified instructions:
+
+    1. Ensure you have the following software packages installed:
+
+        libopenssl-devel
+
+    2. ./configure && make && sudo make install
+
+Please see
+
+    http://code.google.com/p/mtree-port
+
+for more information.
+
+$Id$
