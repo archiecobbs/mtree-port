@@ -36,9 +36,6 @@
 
 extern uint32_t crc_total;
 
-#ifdef _FTS_H_
-int      compare(char *, NODE *, FTSENT *);
-#endif
 int      crc(int, uint32_t *, off_t *);
 void     cwalk(void);
 char    *flags_to_string(u_long);
@@ -49,15 +46,19 @@ char    *rlink(char *);
 NODE    *mtree_readspec(FILE *fi);
 int     mtree_verifyspec(FILE *fi);
 int     mtree_specspec(FILE *fi, FILE *fj);
-int compare(char *name, NODE *s, FTSENT *p);
+int     compare(char *name, NODE *s, FTSENT *p);
 
-int      check_excludes(const char *, const char *);
-void     init_excludes(void);
-void     read_excludes_file(const char *);
+int     check_includes(const char *, const char *);
+int     check_excludes(const char *, const char *);
+void    init_patlists(void);
+void    read_includes_file(const char *);
+void    read_excludes_file(const char *);
 const char * ftype(u_int type);
 
+#if !HAVE_GETMODE
 mode_t getmode(const void *bbox, mode_t omode);
 void *setmode(const char *p);
+#endif
 
 #ifdef HAVE_OPENSSL_MD5_H
 char * MD5_File(const char *filename, char *result);

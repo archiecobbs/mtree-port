@@ -1,4 +1,9 @@
 
+Version 1.0.1
+
+    - Added `-I' flag
+    - Portability fixes
+
 Version 1.0 (r4) released 5 Nov 2010
 
     - Initial release

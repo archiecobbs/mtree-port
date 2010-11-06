@@ -38,10 +38,6 @@
 
 #define MISMATCHEXIT    2
 
-#define st_atimespec st_atim
-#define st_ctimespec st_ctim
-#define st_mtimespec st_mtim
-
 typedef struct _node {
         struct _node    *parent, *child;        /* up, down */
         struct _node    *prev, *next;           /* left, right */

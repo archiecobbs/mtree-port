@@ -48,33 +48,63 @@
  * We're assuming that there won't be a whole lot of excludes,
  * so it's OK to use a stupid algorithm.
  */
-struct exclude {
-        LIST_ENTRY(exclude) link;
+struct patlist {
+        LIST_ENTRY(patlist) link;
         const char *glob;
         int pathname;
 };
-static LIST_HEAD(, exclude) excludes;
+LIST_HEAD(pathead, patlist);
+
+static struct pathead includes;
+static struct pathead excludes;
+
+static int any_includes;
+
+static void read_patlist_file(struct pathead *pathead, const char *name);
+static int check_patlist(struct pathead *pathead, const char *fname, const char *path);
 
 void
-init_excludes(void)
+init_patlists(void)
 {
+        LIST_INIT(&includes);
         LIST_INIT(&excludes);
+}
+
+void
+read_includes_file(const char *name)
+{
+    read_patlist_file(&includes, name);
+    any_includes = 1;
 }
 
 void
 read_excludes_file(const char *name)
 {
+    read_patlist_file(&excludes, name);
+}
+
+static void
+read_patlist_file(struct pathead *pathead, const char *name)
+{
         FILE *fp;
         char *line, *str;
-        struct exclude *e;
+        struct patlist *e;
+#if HAVE_GETLINE
         ssize_t len;
         size_t alloc;
+#else
+        size_t len;
+#endif
 
         fp = fopen(name, "r");
         if (fp == 0)
                 err(1, "%s", name);
 
-    for (line = NULL; (len = getline(&line, &alloc, fp)) != -1; ) {
+#if HAVE_GETLINE
+        for (line = NULL; (len = getline(&line, &alloc, fp)) != -1; ) {
+#else
+        while ((line = fgetln(fp, &len)) != NULL) {
+#endif
                 if (line[len - 1] == '\n')
                         len--;
                 if (len == 0)
@@ -91,24 +121,40 @@ read_excludes_file(const char *name)
                         e->pathname = 1;
                 else
                         e->pathname = 0;
-                LIST_INSERT_HEAD(&excludes, e, link);
+                LIST_INSERT_HEAD(pathead, e, link);
         }
-    free(line);
+#if HAVE_GETLINE
+        free(line);
+#endif
         fclose(fp);
+}
+
+int
+check_includes(const char *fname, const char *path)
+{
+        return !any_includes || check_patlist(&includes, fname, path);
 }
 
 int
 check_excludes(const char *fname, const char *path)
 {
-        struct exclude *e;
+        return check_patlist(&excludes, fname, path);
+}
+
+static int
+check_patlist(struct pathead *pathead, const char *fname, const char *path)
+{
+        struct patlist *e;
 
         /* fnmatch(3) has a funny return value convention... */
 #define MATCH(g, n) (fnmatch((g), (n), FNM_PATHNAME) == 0)
 
-        LIST_FOREACH(e, &excludes, link) {
+        LIST_FOREACH(e, pathead, link) {
                 if ((e->pathname && MATCH(e->glob, path))
                     || MATCH(e->glob, fname))
                         return 1;
         }
         return 0;
 }
+
+

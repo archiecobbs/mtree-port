@@ -90,7 +90,8 @@ vwalk(void)
         level = root;
         specdepth = rval = 0;
         while ((p = fts_read(t))) {
-                if (check_excludes(p->fts_name, p->fts_path)) {
+                if (!check_includes(p->fts_name, p->fts_path)
+                    || check_excludes(p->fts_name, p->fts_path)) {
                         fts_set(t, p, FTS_SKIP);
                         continue;
                 }
