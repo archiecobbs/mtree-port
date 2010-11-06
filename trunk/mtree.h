@@ -36,6 +36,12 @@
 #define KEYDEFAULT \
         (F_GID | F_MODE | F_NLINK | F_SIZE | F_SLINK | F_TIME | F_UID | F_FLAGS)
 
+#ifdef _STAT_VER_LINUX
+#define st_atimespec st_atim
+#define st_ctimespec st_ctim
+#define st_mtimespec st_mtim
+#endif
+
 #define MISMATCHEXIT    2
 
 typedef struct _node {
