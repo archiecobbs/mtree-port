@@ -41,6 +41,9 @@
 .Op Fl f Ar spec
 .Ek
 .Bk -words
+.Op Fl I Ar include-list
+.Ek
+.Bk -words
 .Op Fl K Ar keywords
 .Ek
 .Bk -words
@@ -133,6 +136,22 @@ The output format in this case is somewhat remniscent of
 having "in first spec only", "in second spec only", and "different"
 columns, prefixed by zero, one and two TAB characters respectively.
 Each entry in the "different" column occupies two lines, one from each specification.
+.It Fl I Ar include-list
+The specified file contains
+.Xr fnmatch 3
+patterns matching files to be included in
+the specification, one to a line.
+If the pattern contains a
+.Ql \&/
+character, it will be matched against entire pathnames (relative to
+the starting directory); otherwise,
+it will be matched against basenames only.
+No comments are allowed in
+the
+.Ar include-list
+file.
+.Pp
+If this flag is not present, all files are included by default.
 .It Fl K Ar keywords
 Add the specified (whitespace or comma separated)
 .Ar keywords
@@ -165,6 +184,12 @@ No comments are allowed in
 the
 .Ar exclude-list
 file.
+.Pp
+If both
+.Fl I
+and
+.Fl X
+are specified, any files matching both lists are excluded.
 .El
 .Pp
 Specifications are mostly composed of ``keywords'', i.e., strings

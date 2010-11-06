@@ -39,6 +39,9 @@ AC_CHECK_HEADERS(dirent.h err.h errno.h fcntl.h fnmatch.h fts.h grp.h limits.h p
 # Check for optional header files
 AC_CHECK_HEADERS(openssl/md5.h openssl/sha.h openssl/ripemd.h,,)
 
+# Check for optional functions
+AC_CHECK_FUNCS(getmode getline,,)
+
 # Optional features
 AC_ARG_ENABLE(Werror,
     AC_HELP_STRING([--enable-Werror],

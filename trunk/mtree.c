@@ -71,7 +71,7 @@ main(int argc, char *argv[])
 
         dir = NULL;
         keys = KEYDEFAULT;
-        init_excludes();
+        init_patlists();
         spec1 = stdin;
         spec2 = NULL;
 
@@ -97,6 +97,9 @@ main(int argc, char *argv[])
                                         err(1, "%s", optarg);
                         } else
                                 usage();
+                        break;
+                case 'I':
+                        read_includes_file(optarg);
                         break;
                 case 'i':
                         iflag = 1;

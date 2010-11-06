@@ -30,11 +30,9 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char sccsid[] = "@(#)setmode.c   8.2 (Berkeley) 3/25/94";
-#endif /* LIBC_SCCS and not lint */
-
 #include "config.h"
+
+#if !HAVE_GETMODE
 
 #include <sys/cdefs.h>
 #include <sys/types.h>
@@ -448,3 +446,4 @@ compress_mode(BITCMD *set)
                 }
         }
 }
+#endif  /* !HAVE_GETMODE */
