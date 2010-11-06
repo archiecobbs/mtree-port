@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 1991, 1993
- *	The Regents of the University of California.  All rights reserved.
+ *      The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -26,7 +26,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	@(#)extern.h	8.1 (Berkeley) 6/6/93
+ *      @(#)extern.h    8.1 (Berkeley) 6/6/93
  * $FreeBSD$
  */
 
@@ -37,23 +37,23 @@
 extern uint32_t crc_total;
 
 #ifdef _FTS_H_
-int	 compare(char *, NODE *, FTSENT *);
+int      compare(char *, NODE *, FTSENT *);
 #endif
-int	 crc(int, uint32_t *, off_t *);
-void	 cwalk(void);
-char	*flags_to_string(u_long);
+int      crc(int, uint32_t *, off_t *);
+void     cwalk(void);
+char    *flags_to_string(u_long);
 
-const char	*inotype(u_int);
-u_int	 parsekey(char *, int *);
-char	*rlink(char *);
-NODE	*mtree_readspec(FILE *fi);
-int	mtree_verifyspec(FILE *fi);
-int	mtree_specspec(FILE *fi, FILE *fj);
+const char      *inotype(u_int);
+u_int    parsekey(char *, int *);
+char    *rlink(char *);
+NODE    *mtree_readspec(FILE *fi);
+int     mtree_verifyspec(FILE *fi);
+int     mtree_specspec(FILE *fi, FILE *fj);
 int compare(char *name, NODE *s, FTSENT *p);
 
-int	 check_excludes(const char *, const char *);
-void	 init_excludes(void);
-void	 read_excludes_file(const char *);
+int      check_excludes(const char *, const char *);
+void     init_excludes(void);
+void     read_excludes_file(const char *);
 const char * ftype(u_int type);
 
 mode_t getmode(const void *bbox, mode_t omode);

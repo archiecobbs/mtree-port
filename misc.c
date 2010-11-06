@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 1991, 1993
- *	The Regents of the University of California.  All rights reserved.
+ *      The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -29,7 +29,7 @@
 
 #if 0
 #ifndef lint
-static char sccsid[] = "@(#)misc.c	8.1 (Berkeley) 6/6/93";
+static char sccsid[] = "@(#)misc.c      8.1 (Berkeley) 6/6/93";
 #endif /*not lint */
 #endif
 
@@ -58,40 +58,40 @@ static char sccsid[] = "@(#)misc.c	8.1 (Berkeley) 6/6/93";
 #include "extern.h"
 
 typedef struct _key {
-	const char *name;			/* key name */
-	u_int val;			/* value */
+        const char *name;                       /* key name */
+        u_int val;                      /* value */
 
-#define	NEEDVALUE	0x01
-	u_int flags;
+#define NEEDVALUE       0x01
+        u_int flags;
 } KEY;
 
 /* NB: the following table must be sorted lexically. */
 static KEY keylist[] = {
-	{"cksum",	F_CKSUM,	NEEDVALUE},
-	{"flags",	F_FLAGS,	NEEDVALUE},
-	{"gid",		F_GID,		NEEDVALUE},
-	{"gname",	F_GNAME,	NEEDVALUE},
-	{"ignore",	F_IGN,		0},
-	{"link",	F_SLINK,	NEEDVALUE},
+        {"cksum",       F_CKSUM,        NEEDVALUE},
+        {"flags",       F_FLAGS,        NEEDVALUE},
+        {"gid",         F_GID,          NEEDVALUE},
+        {"gname",       F_GNAME,        NEEDVALUE},
+        {"ignore",      F_IGN,          0},
+        {"link",        F_SLINK,        NEEDVALUE},
 #ifdef HAVE_OPENSSL_MD5_H
-	{"md5digest",	F_MD5,		NEEDVALUE},
+        {"md5digest",   F_MD5,          NEEDVALUE},
 #endif
-	{"mode",	F_MODE,		NEEDVALUE},
-	{"nlink",	F_NLINK,	NEEDVALUE},
-	{"nochange",	F_NOCHANGE,	0},
-	{"optional",	F_OPT,		0},
+        {"mode",        F_MODE,         NEEDVALUE},
+        {"nlink",       F_NLINK,        NEEDVALUE},
+        {"nochange",    F_NOCHANGE,     0},
+        {"optional",    F_OPT,          0},
 #ifdef HAVE_OPENSSL_RIPEMD_H
-	{"ripemd160digest", F_RMD160,	NEEDVALUE},
+        {"ripemd160digest", F_RMD160,   NEEDVALUE},
 #endif
 #ifdef HAVE_OPENSSL_SHA_H
-	{"sha1digest",	F_SHA1,		NEEDVALUE},
-	{"sha256digest",	F_SHA256,		NEEDVALUE},
+        {"sha1digest",  F_SHA1,         NEEDVALUE},
+        {"sha256digest",        F_SHA256,               NEEDVALUE},
 #endif
-	{"size",	F_SIZE,		NEEDVALUE},
-	{"time",	F_TIME,		NEEDVALUE},
-	{"type",	F_TYPE,		NEEDVALUE},
-	{"uid",		F_UID,		NEEDVALUE},
-	{"uname",	F_UNAME,	NEEDVALUE},
+        {"size",        F_SIZE,         NEEDVALUE},
+        {"time",        F_TIME,         NEEDVALUE},
+        {"type",        F_TYPE,         NEEDVALUE},
+        {"uid",         F_UID,          NEEDVALUE},
+        {"uname",       F_UNAME,        NEEDVALUE},
 };
 
 int keycompare(const void *, const void *);
@@ -99,39 +99,39 @@ int keycompare(const void *, const void *);
 u_int
 parsekey(char *name, int *needvaluep)
 {
-	KEY *k, tmp;
+        KEY *k, tmp;
 
-	tmp.name = name;
-	k = (KEY *)bsearch(&tmp, keylist, sizeof(keylist) / sizeof(KEY),
-	    sizeof(KEY), keycompare);
-	if (k == NULL)
-		errx(1, "line %d: unknown keyword %s", lineno, name);
+        tmp.name = name;
+        k = (KEY *)bsearch(&tmp, keylist, sizeof(keylist) / sizeof(KEY),
+            sizeof(KEY), keycompare);
+        if (k == NULL)
+                errx(1, "line %d: unknown keyword %s", lineno, name);
 
-	if (needvaluep)
-		*needvaluep = k->flags & NEEDVALUE ? 1 : 0;
-	return (k->val);
+        if (needvaluep)
+                *needvaluep = k->flags & NEEDVALUE ? 1 : 0;
+        return (k->val);
 }
 
 int
 keycompare(const void *a, const void *b)
 {
-	return (strcmp(((const KEY *)a)->name, ((const KEY *)b)->name));
+        return (strcmp(((const KEY *)a)->name, ((const KEY *)b)->name));
 }
 
 char *
 flags_to_string(u_long fflags)
 {
-	char *string;
+        char *string;
 
-	string = strdup("");
-	if (string != NULL && *string == '\0') {
-		free(string);
-		string = strdup("none");
-	}
-	if (string == NULL)
-		err(1, NULL);
+        string = strdup("");
+        if (string != NULL && *string == '\0') {
+                free(string);
+                string = strdup("none");
+        }
+        if (string == NULL)
+                err(1, NULL);
 
-	return string;
+        return string;
 }
 
 #define DIGEST_FILE(PREFIX, CTX, LENGTH)                        \
