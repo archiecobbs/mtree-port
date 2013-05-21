@@ -1,4 +1,8 @@
 
+Version Next
+
+    - Fixed potential crash when SHA256 enabled
+
 Version 1.0.1
 
     - Added `-I' flag
