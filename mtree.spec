@@ -17,12 +17,12 @@
 # 
 
 Name:           mtree
-Version:        1.0
+Version:        1.0.1
 Release:        1
 License:        BSD
 Summary:        Tool for creating and verifying file hierarchies
 Group:          System/Utilities
-Source:         mtree-1.0.tar.gz
+Source:         %{name}-%{version}.tar.gz
 URL:            http://www.freebsd.org./
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 BuildRequires:  libopenssl-devel

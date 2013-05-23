@@ -1,10 +1,7 @@
 
-Version Next
+Version 1.0.1 (r13) released 23 May 2013
 
     - Fixed potential crash when SHA256 enabled
-
-Version 1.0.1
-
     - Added `-I' flag
     - Portability fixes
 
