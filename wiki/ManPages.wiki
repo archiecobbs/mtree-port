@@ -9,8 +9,8 @@ NAME
      mtree -- map a directory hierarchy
 
 SYNOPSIS
-     mtree [-LPUcdeinqruxw] [-f spec] [-K keywords] [-k keywords] [-p path] [-s seed]
-           [-X exclude-list]
+     mtree [-LPUcdeinqruxw] [-f spec] [-I include-list] [-K keywords] [-k keywords] [-p path]
+           [-s seed] [-X exclude-list]
 
 DESCRIPTION
      The mtree utility compares the file hierarchy rooted in the current directory against a speci-
@@ -67,6 +67,14 @@ DESCRIPTION
            one and two TAB characters respectively.  Each entry in the "different" column occupies
            two lines, one from each specification.
 
+     -I include-list
+           The specified file contains fnmatch(3) patterns matching files to be included in the
+           specification, one to a line.  If the pattern contains a `/' character, it will be
+           matched against entire pathnames (relative to the starting directory); otherwise, it will
+           be matched against basenames only.  No comments are allowed in the include-list file.
+
+           If this flag is not present, all files are included by default.
+
      -K keywords
            Add the specified (whitespace or comma separated) keywords to the current set of key-
            words.
@@ -88,6 +96,8 @@ DESCRIPTION
            specification, one to a line.  If the pattern contains a `/' character, it will be
            matched against entire pathnames (relative to the starting directory); otherwise, it will
            be matched against basenames only.  No comments are allowed in the exclude-list file.
+
+           If both -I and -X are specified, any files matching both lists are excluded.
 
      Specifications are mostly composed of ``keywords'', i.e., strings that specify values relating
      to files.  No keywords have default values, and if a keyword has no value set, no checks based
@@ -206,12 +216,17 @@ EXAMPLES
 SEE ALSO
      chflags(1), chgrp(1), chmod(1), cksum(1), md5(1), stat(2), fts(3), md5(3), chown(8)
 
+     mtree-port: Utility for creating and verifying file hierarchies, http://mtree-
+     port.googlecode.com/.
+
 HISTORY
      The mtree utility appeared in 4.3BSD-Reno.  The MD5 digest capability was added in FreeBSD 2.1,
      in response to the widespread use of programs which can spoof cksum(1).  The SHA-1 and
      RIPEMD160 digests were added in FreeBSD 4.0, as new attacks have demonstrated weaknesses in
      MD5.  The SHA-256 digest was added in FreeBSD 6.0.  Support for file flags was added in
      FreeBSD 4.0, and mostly comes from NetBSD.
+
+     mtree was ported to Linux by Archie L. Cobbs <archie@dellroad.org>
 
 BSD                                         June 16, 2007                                        BSD
 }}}
@@ -348,6 +363,9 @@ DESCRIPTION
 SEE ALSO
      cksum(1), find(1), mtree(8)
 
+     mtree-port: Utility for creating and verifying file hierarchies, http://mtree-
+     port.googlecode.com/.
+
 BUGS
      The FreeBSD implementation of mtree does not currently support the mtree 2.0 format.  The
      requirement for a ``#mtree'' signature line is new and not yet widely implemented.
@@ -358,6 +376,8 @@ HISTORY
      RIPEMD160 digests were added in FreeBSD 4.0, as new attacks have demonstrated weaknesses in
      MD5.  The SHA-256 digest was added in FreeBSD 6.0.  Support for file flags was added in
      FreeBSD 4.0, and mostly comes from NetBSD.  The ``full'' entry format was added by NetBSD.
+
+     mtree was ported to Linux by Archie L. Cobbs <archie@dellroad.org>
 
 BSD                                       December 31, 2007                                      BSD
 }}}
