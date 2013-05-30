@@ -4,7 +4,7 @@
 # $Id$
 #
 
-AC_INIT([mtree Utility for creating and verifying file hierarchies], [1.0.1], [http://www.freebsd.org/], [mtree])
+AC_INIT([mtree Utility for creating and verifying file hierarchies], [1.0.2], [http://www.freebsd.org/], [mtree])
 AC_CONFIG_AUX_DIR(scripts)
 AM_INIT_AUTOMAKE
 dnl AM_MAINTAINER_MODE
