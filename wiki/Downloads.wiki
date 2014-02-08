@@ -1,9 +1,12 @@
 #summary Where to download mtree
 
-*mtree* downloads are available here:
+The current release of *mtree* is version *1.0.2* and is available here:
 
-  * [https://s3.amazonaws.com/archie-public/mtree-port/mtree-1.0.tar.gz mtree-1.0.tar.gz]
-  * [https://s3.amazonaws.com/archie-public/mtree-port/mtree-1.0.1.tar.gz mtree-1.0.1.tar.gz]
   * [https://s3.amazonaws.com/archie-public/mtree-port/mtree-1.0.2.tar.gz mtree-1.0.2.tar.gz]
+
+You can download older *mtree* releases here:
+
+  * [https://s3.amazonaws.com/archie-public/mtree-port/mtree-1.0.1.tar.gz mtree-1.0.1.tar.gz]
+  * [https://s3.amazonaws.com/archie-public/mtree-port/mtree-1.0.tar.gz mtree-1.0.tar.gz]
 
 Changes are noted [http://mtree-port.googlecode.com/svn/trunk/CHANGES here].
