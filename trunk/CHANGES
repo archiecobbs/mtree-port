@@ -1,4 +1,8 @@
 
+Version 1.0.2 (r17) released 8 Feb 2014
+
+    - Fixed bug where `-I' flag was unrecognized (issue #2)
+
 Version 1.0.1 (r13) released 23 May 2013
 
     - Fixed potential crash when SHA256 enabled

@@ -75,7 +75,7 @@ main(int argc, char *argv[])
         spec1 = stdin;
         spec2 = NULL;
 
-        while ((ch = getopt(argc, argv, "cdef:iK:k:LnPp:qrs:UuwxX:")) != -1)
+        while ((ch = getopt(argc, argv, "cdef:I:iK:k:LnPp:qrs:UuwxX:")) != -1)
                 switch((char)ch) {
                 case 'c':
                         cflag = 1;
