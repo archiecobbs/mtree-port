@@ -1,3 +1,7 @@
+Version Next
+
+    - Display symlink, modification time, and file type changes
+      if requested (contributed by Christophe Beauval)
 
 Version 1.0.2 (r17) released 8 Feb 2014
 

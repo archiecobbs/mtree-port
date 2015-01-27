@@ -67,8 +67,12 @@ shownode(NODE *n, int f, char const *path)
                 printf(" mode=%o", n->st_mode);
         if (f & F_NLINK)
                 printf(" nlink=%d", (int)n->st_nlink);
+        if (f & F_SLINK)
+                printf(" link=%s", n->slink);
         if (f & F_SIZE)
                 printf(" size=%jd", (intmax_t)n->st_size);
+        if (f & F_TIME)
+                printf(" time=%ld.%09ld", (long)n->st_mtimespec.tv_sec, n->st_mtimespec.tv_nsec);
         if (f & F_UID)
                 printf(" uid=%d", n->st_uid);
         if (f & F_UNAME) {
@@ -117,7 +121,7 @@ static int
 compare_nodes(NODE *n1, NODE *n2, char const *path)
 {
         int differs;
-        
+
         if (n1 != NULL && n1->type == F_LINK)
                 n1->flags &= ~F_MODE;
         if (n2 != NULL && n2->type == F_LINK)
@@ -134,7 +138,7 @@ compare_nodes(NODE *n1, NODE *n2, char const *path)
                 return (1);
         }
         if (n1->type != n2->type) {
-                differs = 0;
+                differs = F_TYPE;
                 mismatch(n1, n2, differs, path);
                 return (1);
         }
@@ -172,7 +176,7 @@ compare_nodes(NODE *n1, NODE *n2, char const *path)
                 mismatch(n1, n2, differs, path);
                 return (1);
         }
-        return (0);     
+        return (0);
 }
 static int
 walk_in_the_forest(NODE *t1, NODE *t2, char const *path)
