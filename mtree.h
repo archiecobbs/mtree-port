@@ -69,9 +69,9 @@ typedef struct _node {
 #define F_IGN   0x0010                          /* ignore */
 #define F_MAGIC 0x0020                          /* name has magic chars */
 #define F_MODE  0x0040                          /* mode */
-#define F_NLINK 0x0080                          /* number of links */
+#define F_NLINK 0x0080                          /* number of hardlinks */
 #define F_SIZE  0x0100                          /* size */
-#define F_SLINK 0x0200                          /* link count */
+#define F_SLINK 0x0200                          /* symbolic link path */
 #define F_TIME  0x0400                          /* modification time */
 #define F_TYPE  0x0800                          /* file type */
 #define F_UID   0x1000                          /* uid */
