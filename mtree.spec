@@ -1,5 +1,3 @@
-# $Id$
-
 #
 # Copyright 2010 Archie L. Cobbs.
 # 

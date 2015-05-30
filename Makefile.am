@@ -2,8 +2,6 @@
 #
 # mtree - Utility for creating and verifying file hierarchies
 # 
-# $Id$
-#
 
 bin_PROGRAMS=		mtree
 

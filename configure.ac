@@ -1,15 +1,12 @@
 #
 # mtree - Utility for creating and verifying file hierarchies
 # 
-# $Id$
-#
 
 AC_INIT([mtree Utility for creating and verifying file hierarchies], [1.0.3], [http://www.freebsd.org/], [mtree])
 AC_CONFIG_AUX_DIR(scripts)
 AM_INIT_AUTOMAKE
 dnl AM_MAINTAINER_MODE
 AC_PREREQ(2.59)
-AC_REVISION($Id$)
 AC_PREFIX_DEFAULT(/usr)
 AC_PROG_MAKE_SET
 
