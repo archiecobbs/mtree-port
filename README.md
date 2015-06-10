@@ -4,4 +4,4 @@ The **mtree** utility compares the file hierarchy rooted in the current director
 
 This port of **mtree** uses the `autoconf` infrastructure to maintain portability.
 
-See the [ManPages](https://github.com/archiecobbs/mtree-port/wiki/ManPages) for details.
+See the [ManPages](https://github.com/archiecobbs/mtree-port/wiki/ManPages) for details on usage, and [Downloads](https://github.com/archiecobbs/mtree-port/wiki/Downloads) for where to get it.
