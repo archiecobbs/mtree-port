@@ -1,4 +1,4 @@
-Version Next
+Version 1.0.3 Released 10 June 2015
 
     - Display symlink, modification time, and file type changes
       if requested (contributed by Christophe Beauval)
