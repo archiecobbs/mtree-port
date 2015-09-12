@@ -59,13 +59,17 @@ static void      unset(char *, NODE *);
 NODE *
 mtree_readspec(FILE *fi)
 {
-        NODE *centry, *last;
-        char *p;
+        NODE *centry, *pathparent, *last;
+        char *p, *e;
         NODE ginfo, *root;
         int c_cur, c_next;
         char buf[2048];
+        char *tname;
+        size_t tnamelen, plen;
 
         centry = last = root = NULL;
+        tname = NULL;
+        tnamelen = 0;
         bzero(&ginfo, sizeof(ginfo));
         c_cur = c_next = 0;
         for (lineno = 1; fgets(buf, sizeof(buf), fi);
@@ -120,10 +124,6 @@ mtree_readspec(FILE *fi)
                                 continue;
                         }
 
-                if (index(p, '/'))
-                        errx(1, "line %d: slash character in file name",
-                        lineno);
-
                 if (!strcmp(p, "..")) {
                         /* Don't go up, if haven't gone down. */
                         if (!root)
@@ -139,19 +139,70 @@ mtree_readspec(FILE *fi)
 noparent:               errx(1, "line %d: no parent node", lineno);
                 }
 
+                plen = strlen(p) + 1;
+                if (plen > tnamelen) {
+                        tnamelen = plen;
+                        if ((tname = realloc(tname, tnamelen)) == NULL)
+                                err(1, "realloc");
+                }
+                if (strunvis(tname, p) == -1)
+                        errx(1, "strunvis failed on `%s'", p);
+                p = tname;
+
+                pathparent = NULL;
+                if (strchr(p, '/') != NULL) {
+                        cur = root;
+                        for (; (e = strchr(p, '/')) != NULL; p = e+1) {
+                                if (p == e)
+                                        continue;       /* handle // */
+                                *e = '\0';
+                                if (strcmp(p, ".") != 0) {
+                                        while (cur && strcmp(cur->name, p)) {
+                                                cur = cur->next;
+                                        }
+                                }
+                                if (cur == NULL || cur->type != F_DIR) {
+                                        errno = ENOENT;
+                                        err(1, "%s", tname);
+                                }
+                                *e = '/';
+                                pathparent = cur;
+                                cur = cur->child;
+                        }
+                        if (*p == '\0')
+                                errx(1, "%s: empty leaf element", tname);
+                        for (; cur != NULL; cur = cur->next) {
+                                if (strcmp(cur->name, p) == 0) {
+                                        errno = EEXIST;
+                                        err(1, "%s", p);
+                                }
+                        }
+                }
+
                 if ((centry = calloc(1, sizeof(NODE) + strlen(p))) == NULL)
                         errx(1, "calloc");
                 *centry = ginfo;
 #define MAGIC   "?*["
                 if (strpbrk(p, MAGIC))
                         centry->flags |= F_MAGIC;
-                if (strunvis(centry->name, p) == -1)
-                        errx(1, "filename %s is ill-encoded", p);
+                strcpy(centry->name, p);
                 set(NULL, centry);
 
                 if (!root) {
                         last = root = centry;
                         root->parent = root;
+                } else if (pathparent != NULL) {
+                        centry->parent = pathparent;
+                        cur = pathparent->child;
+                        if (cur == NULL)
+                                pathparent->child = centry;
+                        else {
+                                while (cur->next != NULL)
+                                        cur = cur->next;
+                                cur->next = centry;
+                                centry->prev = cur;
+                        }
+                        last = centry;
                 } else if (last->type == F_DIR && !(last->flags & F_DONE)) {
                         centry->parent = last;
                         last = last->child = centry;
