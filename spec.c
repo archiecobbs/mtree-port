@@ -59,7 +59,7 @@ static void      unset(char *, NODE *);
 NODE *
 mtree_readspec(FILE *fi)
 {
-        NODE *centry, *pathparent, *last;
+        NODE *centry, *last, *pathparent, *cur;
         char *p, *e;
         NODE ginfo, *root;
         int c_cur, c_next;
