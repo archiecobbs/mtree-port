@@ -318,6 +318,22 @@ typeerr:                LABEL;
                         tab = "\t";
                 }
         }
+        if (s->flags & F_SHA512) {
+                char *new_digest, buf[65];
+
+                new_digest = SHA512_File(p->fts_accpath, buf);
+                if (!new_digest) {
+                        LABEL;
+                        printf("%sSHA-512: %s: %s\n", tab, p->fts_accpath,
+                               strerror(errno));
+                        tab = "\t";
+                } else if (strcmp(new_digest, s->sha512digest)) {
+                        LABEL;
+                        printf("%sSHA-512 expected %s found %s\n",
+                               tab, s->sha512digest, new_digest);
+                        tab = "\t";
+                }
+        }
 #endif /* HAVE_OPENSSL_SHA_H */
 
         if (s->flags & F_SLINK &&

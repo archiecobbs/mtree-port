@@ -66,6 +66,7 @@ char * MD5_File(const char *filename, char *result);
 #ifdef HAVE_OPENSSL_SHA_H
 char * SHA1_File(const char *filename, char *result);
 char * SHA256_File(const char *filename, char *result);
+char * SHA512_File(const char *filename, char *result);
 #endif
 #ifdef HAVE_OPENSSL_RIPEMD_H
 char * RIPEMD160_File(const char *filename, char *result);

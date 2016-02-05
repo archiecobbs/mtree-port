@@ -86,6 +86,7 @@ static KEY keylist[] = {
 #ifdef HAVE_OPENSSL_SHA_H
         {"sha1digest",  F_SHA1,         NEEDVALUE},
         {"sha256digest",        F_SHA256,               NEEDVALUE},
+        {"sha512digest",        F_SHA512,               NEEDVALUE},
 #endif
         {"size",        F_SIZE,         NEEDVALUE},
         {"time",        F_TIME,         NEEDVALUE},
@@ -168,6 +169,7 @@ DIGEST_FILE(MD5, MD5_CTX, MD5_DIGEST_LENGTH);
 #ifdef HAVE_OPENSSL_SHA_H
 DIGEST_FILE(SHA1, SHA_CTX, SHA_DIGEST_LENGTH);
 DIGEST_FILE(SHA256, SHA256_CTX, SHA256_DIGEST_LENGTH);
+DIGEST_FILE(SHA512, SHA512_CTX, SHA512_DIGEST_LENGTH);
 #endif
 
 #ifdef HAVE_OPENSSL_RIPEMD_H

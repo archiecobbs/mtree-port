@@ -261,6 +261,14 @@ statf(int indent, FTSENT *p)
                         err(1, "%s", p->fts_accpath);
                 output(indent, &offset, "sha256digest=%s", digest);
         }
+        if (keys & F_SHA512 && S_ISREG(p->fts_statp->st_mode)) {
+                char *digest, buf[SHA512_CBLOCK+1];
+
+                digest = SHA512_File(p->fts_accpath, buf);
+                if (!digest)
+                        err(1, "%s", p->fts_accpath);
+                output(indent, &offset, "sha512digest=%s", digest);
+        }
 #endif /* HAVE_OPENSSL_SHA_H */
         if (keys & F_SLINK &&
             (p->fts_info == FTS_SL || p->fts_info == FTS_SLNONE))
