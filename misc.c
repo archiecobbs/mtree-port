@@ -84,9 +84,12 @@ static KEY keylist[] = {
         {"ripemd160digest", F_RMD160,   NEEDVALUE},
 #endif
 #ifdef HAVE_OPENSSL_SHA_H
-        {"sha1digest",  F_SHA1,         NEEDVALUE},
-        {"sha256digest",        F_SHA256,               NEEDVALUE},
-        {"sha512digest",        F_SHA512,               NEEDVALUE},
+        {"sha1",	F_SHA1,		NEEDVALUE},
+        {"sha1digest",	F_SHA1,		NEEDVALUE},
+        {"sha256",	F_SHA256,	NEEDVALUE},
+        {"sha256digest",F_SHA256,	NEEDVALUE},
+        {"sha512",	F_SHA512,	NEEDVALUE},
+        {"sha512digest",F_SHA512,	NEEDVALUE},
 #endif
         {"size",        F_SIZE,         NEEDVALUE},
         {"time",        F_TIME,         NEEDVALUE},
