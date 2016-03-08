@@ -224,9 +224,9 @@ statf(int indent, FTSENT *p)
         }
 #ifdef HAVE_OPENSSL_MD5_H
         if (keys & F_MD5 && S_ISREG(p->fts_statp->st_mode)) {
-                char *digest, buf[33];
+                char *digest, result[MD5_DIGEST_LENGTH*2+1];
 
-                digest = MD5_File(p->fts_accpath, buf);
+                digest = MD5_File(p->fts_accpath, result);
                 if (!digest)
                         err(1, "%s", p->fts_accpath);
                 output(indent, &offset, "md5digest=%s", digest);
@@ -234,9 +234,9 @@ statf(int indent, FTSENT *p)
 #endif /* HAVE_OPENSSL_MD5_H */
 #ifdef HAVE_OPENSSL_SHA_H
         if (keys & F_SHA1 && S_ISREG(p->fts_statp->st_mode)) {
-                char *digest, buf[41];
+                char *digest, result[SHA_DIGEST_LENGTH*2+1];
 
-                digest = SHA1_File(p->fts_accpath, buf);
+                digest = SHA1_File(p->fts_accpath, result);
                 if (!digest)
                         err(1, "%s", p->fts_accpath);
                 output(indent, &offset, "sha1digest=%s", digest);
@@ -244,9 +244,9 @@ statf(int indent, FTSENT *p)
 #endif /* HAVE_OPENSSL_SHA_H */
 #ifdef HAVE_OPENSSL_RIPEMD_H
         if (keys & F_RMD160 && S_ISREG(p->fts_statp->st_mode)) {
-                char *digest, buf[41];
+                char *digest, result[RIPEMD160_DIGEST_LENGTH*2+1];
 
-                digest = RIPEMD160_File(p->fts_accpath, buf);
+                digest = RIPEMD160_File(p->fts_accpath, result);
                 if (!digest)
                         err(1, "%s", p->fts_accpath);
                 output(indent, &offset, "ripemd160digest=%s", digest);
@@ -254,17 +254,26 @@ statf(int indent, FTSENT *p)
 #endif /* HAVE_OPENSSL_RIPEMD_H */
 #ifdef HAVE_OPENSSL_SHA_H
         if (keys & F_SHA256 && S_ISREG(p->fts_statp->st_mode)) {
-                char *digest, buf[65];
+                char *digest, result[SHA256_DIGEST_LENGTH*2+1];
 
-                digest = SHA256_File(p->fts_accpath, buf);
+                digest = SHA256_File(p->fts_accpath, result);
                 if (!digest)
                         err(1, "%s", p->fts_accpath);
                 output(indent, &offset, "sha256digest=%s", digest);
         }
-        if (keys & F_SHA512 && S_ISREG(p->fts_statp->st_mode)) {
-                char *digest, buf[SHA512_CBLOCK+1];
+        if (keys & F_SHA384 && S_ISREG(p->fts_statp->st_mode)) {
+                char *digest, result[SHA384_DIGEST_LENGTH*2+1];
 
-                digest = SHA512_File(p->fts_accpath, buf);
+		// XXX(vbatts) really not sure why SHA384_File is not returning the correct char*
+                digest = SHA384_File(p->fts_accpath, result);
+                if (!digest)
+                        err(1, "%s", p->fts_accpath);
+                output(indent, &offset, "sha384digest=%s", result);
+        }
+        if (keys & F_SHA512 && S_ISREG(p->fts_statp->st_mode)) {
+                char *digest, result[SHA512_DIGEST_LENGTH*2+1];
+
+                digest = SHA512_File(p->fts_accpath, result);
                 if (!digest)
                         err(1, "%s", p->fts_accpath);
                 output(indent, &offset, "sha512digest=%s", digest);

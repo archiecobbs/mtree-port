@@ -249,9 +249,9 @@ typeerr:                LABEL;
 #endif
 #ifdef HAVE_OPENSSL_MD5_H
         if (s->flags & F_MD5) {
-                char *new_digest, buf[33];
+                char *new_digest, result[MD5_DIGEST_LENGTH*2+1];
 
-                new_digest = MD5_File(p->fts_accpath, buf);
+                new_digest = MD5_File(p->fts_accpath, result);
                 if (!new_digest) {
                         LABEL;
                         printf("%sMD5: %s: %s\n", tab, p->fts_accpath,
@@ -267,9 +267,9 @@ typeerr:                LABEL;
 #endif /* HAVE_OPENSSL_MD5_H */
 #ifdef HAVE_OPENSSL_SHA_H
         if (s->flags & F_SHA1) {
-                char *new_digest, buf[41];
+                char *new_digest, result[SHA_DIGEST_LENGTH*2+1];
 
-                new_digest = SHA1_File(p->fts_accpath, buf);
+                new_digest = SHA1_File(p->fts_accpath, result);
                 if (!new_digest) {
                         LABEL;
                         printf("%sSHA-1: %s: %s\n", tab, p->fts_accpath,
@@ -285,9 +285,9 @@ typeerr:                LABEL;
 #endif /* HAVE_OPENSSL_SHA_H */
 #ifdef HAVE_OPENSSL_RIPEMD_H
         if (s->flags & F_RMD160) {
-                char *new_digest, buf[41];
+                char *new_digest, result[RIPEMD160_DIGEST_LENGTH*2+1];
 
-                new_digest = RIPEMD160_File(p->fts_accpath, buf);
+                new_digest = RIPEMD160_File(p->fts_accpath, result);
                 if (!new_digest) {
                         LABEL;
                         printf("%sRIPEMD160: %s: %s\n", tab,
@@ -303,9 +303,9 @@ typeerr:                LABEL;
 #endif /* HAVE_OPENSSL_RIPEMD_H */
 #ifdef HAVE_OPENSSL_SHA_H
         if (s->flags & F_SHA256) {
-                char *new_digest, buf[65];
+                char *new_digest, result[SHA256_DIGEST_LENGTH*2+1];
 
-                new_digest = SHA256_File(p->fts_accpath, buf);
+                new_digest = SHA256_File(p->fts_accpath, result);
                 if (!new_digest) {
                         LABEL;
                         printf("%sSHA-256: %s: %s\n", tab, p->fts_accpath,
@@ -318,10 +318,27 @@ typeerr:                LABEL;
                         tab = "\t";
                 }
         }
-        if (s->flags & F_SHA512) {
-                char *new_digest, buf[65];
+        if (s->flags & F_SHA384) {
+                char *new_digest, result[SHA384_DIGEST_LENGTH*2+1];
 
-                new_digest = SHA512_File(p->fts_accpath, buf);
+		// XXX(vbatts) really not sure why SHA384_File is not returning the correct char*
+                new_digest = SHA384_File(p->fts_accpath, result);
+                if (!new_digest) {
+                        LABEL;
+                        printf("%sSHA-384: %s: %s\n", tab, p->fts_accpath,
+                               strerror(errno));
+                        tab = "\t";
+                } else if (strcmp(result, s->sha384digest)) {
+                        LABEL;
+                        printf("%sSHA-384 expected %s found %s\n",
+                               tab, s->sha384digest, result);
+                        tab = "\t";
+                }
+        }
+        if (s->flags & F_SHA512) {
+                char *new_digest, result[SHA512_DIGEST_LENGTH*2+1];
+
+                new_digest = SHA512_File(p->fts_accpath, result);
                 if (!new_digest) {
                         LABEL;
                         printf("%sSHA-512: %s: %s\n", tab, p->fts_accpath,

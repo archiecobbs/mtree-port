@@ -53,6 +53,7 @@ typedef struct _node {
         char    *md5digest;                     /* MD5 digest */
         char    *sha1digest;                    /* SHA-1 digest */
         char    *sha256digest;                  /* SHA-256 digest */
+        char    *sha384digest;                  /* SHA-384 digest */
         char    *sha512digest;                  /* SHA-512 digest */
         char    *rmd160digest;                  /* RIPEMD160 digest */
         char    *slink;                         /* symbolic link reference */
@@ -87,7 +88,8 @@ typedef struct _node {
 #define F_SHA256	0x100000		/* SHA-256 digest */
 #define F_OPT		0x200000		/* existence optional */
         u_int   flags;                          /* items set */
-#define F_SHA512	0x400000		/* SHA-512 digest */
+#define F_SHA384	0x400000		/* SHA-384 digest */
+#define F_SHA512	0x800000		/* SHA-512 digest */
 
 #define F_BLOCK		0x001			/* block special */
 #define F_CHAR		0x002			/* char special */
