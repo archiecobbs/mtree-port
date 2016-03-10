@@ -53,6 +53,8 @@ typedef struct _node {
         char    *md5digest;                     /* MD5 digest */
         char    *sha1digest;                    /* SHA-1 digest */
         char    *sha256digest;                  /* SHA-256 digest */
+        char    *sha384digest;                  /* SHA-384 digest */
+        char    *sha512digest;                  /* SHA-512 digest */
         char    *rmd160digest;                  /* RIPEMD160 digest */
         char    *slink;                         /* symbolic link reference */
         uid_t   st_uid;                         /* uid */
@@ -62,38 +64,40 @@ typedef struct _node {
         u_long  st_flags;                       /* flags */
         nlink_t st_nlink;                       /* link count */
 
-#define F_CKSUM 0x0001                          /* check sum */
-#define F_DONE  0x0002                          /* directory done */
-#define F_GID   0x0004                          /* gid */
-#define F_GNAME 0x0008                          /* group name */
-#define F_IGN   0x0010                          /* ignore */
-#define F_MAGIC 0x0020                          /* name has magic chars */
-#define F_MODE  0x0040                          /* mode */
-#define F_NLINK 0x0080                          /* number of hardlinks */
-#define F_SIZE  0x0100                          /* size */
-#define F_SLINK 0x0200                          /* symbolic link path */
-#define F_TIME  0x0400                          /* modification time */
-#define F_TYPE  0x0800                          /* file type */
-#define F_UID   0x1000                          /* uid */
-#define F_UNAME 0x2000                          /* user name */
-#define F_VISIT 0x4000                          /* file visited */
-#define F_MD5   0x8000                          /* MD5 digest */
-#define F_NOCHANGE 0x10000                      /* If owner/mode "wrong", do */
-                                                /* not change */
-#define F_SHA1  0x20000                         /* SHA-1 digest */
-#define F_RMD160 0x40000                        /* RIPEMD160 digest */
-#define F_FLAGS 0x80000                         /* file flags */
-#define F_SHA256        0x100000                                /* SHA-256 digest */
-#define F_OPT   0x200000                        /* existence optional */
+#define F_CKSUM		0x000001		/* check sum */
+#define F_DONE		0x000002		/* directory done */
+#define F_GID		0x000004		/* gid */
+#define F_GNAME		0x000008		/* group name */
+#define F_IGN		0x000010		/* ignore */
+#define F_MAGIC		0x000020		/* name has magic chars */
+#define F_MODE		0x000040		/* mode */
+#define F_NLINK		0x000080		/* number of hardlinks */
+#define F_SIZE		0x000100		/* size */
+#define F_SLINK		0x000200		/* symbolic link path */
+#define F_TIME		0x000400		/* modification time */
+#define F_TYPE		0x000800		/* file type */
+#define F_UID		0x001000		/* uid */
+#define F_UNAME		0x002000		/* user name */
+#define F_VISIT		0x004000		/* file visited */
+#define F_MD5		0x008000		/* MD5 digest */
+#define F_NOCHANGE	0x010000		/* If owner/mode "wrong", do */
+						/* not change */
+#define F_SHA1		0x020000		/* SHA-1 digest */
+#define F_RMD160	0x040000		/* RIPEMD160 digest */
+#define F_FLAGS		0x080000		/* file flags */
+#define F_SHA256	0x100000		/* SHA-256 digest */
+#define F_OPT		0x200000		/* existence optional */
         u_int   flags;                          /* items set */
+#define F_SHA384	0x400000		/* SHA-384 digest */
+#define F_SHA512	0x800000		/* SHA-512 digest */
 
-#define F_BLOCK 0x001                           /* block special */
-#define F_CHAR  0x002                           /* char special */
-#define F_DIR   0x004                           /* directory */
-#define F_FIFO  0x008                           /* fifo */
-#define F_FILE  0x010                           /* regular file */
-#define F_LINK  0x020                           /* symbolic link */
-#define F_SOCK  0x040                           /* socket */
+#define F_BLOCK		0x001			/* block special */
+#define F_CHAR		0x002			/* char special */
+#define F_DIR		0x004			/* directory */
+#define F_FIFO		0x008			/* fifo */
+#define F_FILE		0x010			/* regular file */
+#define F_LINK		0x020			/* symbolic link */
+#define F_SOCK		0x040			/* socket */
         u_char  type;                           /* file type */
 
         char    name[1];                        /* file name (must be last) */
