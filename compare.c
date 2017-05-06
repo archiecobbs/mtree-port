@@ -247,7 +247,7 @@ typeerr:                LABEL;
                 tab = "\t";
         }
 #endif
-#ifdef HAVE_OPENSSL_MD5_H
+#if HAVE_OPENSSL_MD5_H && HAVE_EVP_MD5
         if (s->flags & F_MD5) {
                 char *new_digest, result[MD5_DIGEST_LENGTH*2+1];
 
@@ -265,7 +265,7 @@ typeerr:                LABEL;
                 }
         }
 #endif /* HAVE_OPENSSL_MD5_H */
-#ifdef HAVE_OPENSSL_SHA_H
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA1
         if (s->flags & F_SHA1) {
                 char *new_digest, result[SHA_DIGEST_LENGTH*2+1];
 
@@ -283,7 +283,7 @@ typeerr:                LABEL;
                 }
         }
 #endif /* HAVE_OPENSSL_SHA_H */
-#ifdef HAVE_OPENSSL_RIPEMD_H
+#if HAVE_OPENSSL_RIPEMD_H && HAVE_EVP_RIPEMD160
         if (s->flags & F_RMD160) {
                 char *new_digest, result[RIPEMD160_DIGEST_LENGTH*2+1];
 
@@ -301,7 +301,7 @@ typeerr:                LABEL;
                 }
         }
 #endif /* HAVE_OPENSSL_RIPEMD_H */
-#ifdef HAVE_OPENSSL_SHA_H
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA256
         if (s->flags & F_SHA256) {
                 char *new_digest, result[SHA256_DIGEST_LENGTH*2+1];
 
@@ -318,6 +318,8 @@ typeerr:                LABEL;
                         tab = "\t";
                 }
         }
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA384
         if (s->flags & F_SHA384) {
                 char *new_digest, result[SHA384_DIGEST_LENGTH*2+1];
 
@@ -335,6 +337,8 @@ typeerr:                LABEL;
                         tab = "\t";
                 }
         }
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA512
         if (s->flags & F_SHA512) {
                 char *new_digest, result[SHA512_DIGEST_LENGTH*2+1];
 

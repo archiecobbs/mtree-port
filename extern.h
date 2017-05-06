@@ -60,15 +60,23 @@ mode_t getmode(const void *bbox, mode_t omode);
 void *setmode(const char *p);
 #endif
 
-#ifdef HAVE_OPENSSL_MD5_H
+#if HAVE_OPENSSL_MD5_H && HAVE_EVP_MD5
 char * MD5_File(const char *filename, char *result);
 #endif
-#ifdef HAVE_OPENSSL_SHA_H
+
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA1
 char * SHA1_File(const char *filename, char *result);
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA256
 char * SHA256_File(const char *filename, char *result);
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA384
+char * SHA384_File(const char *filename, char *result);
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA512
 char * SHA512_File(const char *filename, char *result);
 #endif
-#ifdef HAVE_OPENSSL_RIPEMD_H
+#if HAVE_OPENSSL_RIPEMD_H && HAVE_EVP_RIPEMD160
 char * RIPEMD160_File(const char *filename, char *result);
 #endif
 

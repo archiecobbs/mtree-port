@@ -222,7 +222,7 @@ statf(int indent, FTSENT *p)
                 (void)close(fd);
                 output(indent, &offset, "cksum=%lu", (unsigned long)val);
         }
-#ifdef HAVE_OPENSSL_MD5_H
+#if HAVE_OPENSSL_MD5_H && HAVE_EVP_MD5
         if (keys & F_MD5 && S_ISREG(p->fts_statp->st_mode)) {
                 char *digest, result[MD5_DIGEST_LENGTH*2+1];
 
@@ -232,7 +232,7 @@ statf(int indent, FTSENT *p)
                 output(indent, &offset, "md5digest=%s", digest);
         }
 #endif /* HAVE_OPENSSL_MD5_H */
-#ifdef HAVE_OPENSSL_SHA_H
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA1
         if (keys & F_SHA1 && S_ISREG(p->fts_statp->st_mode)) {
                 char *digest, result[SHA_DIGEST_LENGTH*2+1];
 
@@ -242,7 +242,7 @@ statf(int indent, FTSENT *p)
                 output(indent, &offset, "sha1digest=%s", digest);
         }
 #endif /* HAVE_OPENSSL_SHA_H */
-#ifdef HAVE_OPENSSL_RIPEMD_H
+#if HAVE_OPENSSL_RIPEMD_H && HAVE_EVP_RIPEMD160
         if (keys & F_RMD160 && S_ISREG(p->fts_statp->st_mode)) {
                 char *digest, result[RIPEMD160_DIGEST_LENGTH*2+1];
 
@@ -252,7 +252,7 @@ statf(int indent, FTSENT *p)
                 output(indent, &offset, "ripemd160digest=%s", digest);
         }
 #endif /* HAVE_OPENSSL_RIPEMD_H */
-#ifdef HAVE_OPENSSL_SHA_H
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA256
         if (keys & F_SHA256 && S_ISREG(p->fts_statp->st_mode)) {
                 char *digest, result[SHA256_DIGEST_LENGTH*2+1];
 
@@ -261,6 +261,8 @@ statf(int indent, FTSENT *p)
                         err(1, "%s", p->fts_accpath);
                 output(indent, &offset, "sha256digest=%s", digest);
         }
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA384
         if (keys & F_SHA384 && S_ISREG(p->fts_statp->st_mode)) {
                 char *digest, result[SHA384_DIGEST_LENGTH*2+1];
 
@@ -270,6 +272,8 @@ statf(int indent, FTSENT *p)
                         err(1, "%s", p->fts_accpath);
                 output(indent, &offset, "sha384digest=%s", result);
         }
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA512
         if (keys & F_SHA512 && S_ISREG(p->fts_statp->st_mode)) {
                 char *digest, result[SHA512_DIGEST_LENGTH*2+1];
 
@@ -278,7 +282,7 @@ statf(int indent, FTSENT *p)
                         err(1, "%s", p->fts_accpath);
                 output(indent, &offset, "sha512digest=%s", digest);
         }
-#endif /* HAVE_OPENSSL_SHA_H */
+#endif
         if (keys & F_SLINK &&
             (p->fts_info == FTS_SL || p->fts_info == FTS_SLNONE))
                 output(indent, &offset, "link=%s", rlink(p->fts_accpath));

@@ -1,3 +1,7 @@
+Version Next
+
+    - Fix build issue with OpenSSL 1.1.0 (issue #10)
+
 Version 1.0.3 Released 10 June 2015
 
     - Display symlink, modification time, and file type changes

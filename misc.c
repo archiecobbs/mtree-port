@@ -44,6 +44,9 @@ static char sccsid[] = "@(#)misc.c      8.1 (Berkeley) 6/6/93";
 #include <stdio.h>
 #include <unistd.h>
 
+#if HAVE_OPENSSL_MD5_H || HAVE_OPENSSL_SHA_H || HAVE_OPENSSL_RIPEMD_H
+#include <openssl/evp.h>
+#endif
 #ifdef HAVE_OPENSSL_MD5_H
 #include <openssl/md5.h>
 #endif
@@ -140,45 +143,57 @@ flags_to_string(u_long fflags)
         return string;
 }
 
-#define DIGEST_FILE(PREFIX, CTX, LENGTH)                        \
+#define DIGEST_FILE(PREFIX, TYPE)                               \
 char *                                                          \
-PREFIX ## _File(const char *filename, char *result)              \
+PREFIX ## _File(const char *filename, char *result)             \
 {                                                               \
-    u_char md[LENGTH];                                          \
+    u_char md[EVP_MAX_MD_SIZE];                                 \
     u_char buf[1024];                                           \
-    CTX ctx;                                                    \
+    EVP_MD_CTX *ctx;                                            \
+    unsigned int i, mdlen;                                      \
     FILE *fp;                                                   \
     size_t r;                                                   \
-    int i;                                                      \
                                                                 \
-    PREFIX ## _Init(&ctx);                                      \
-    if ((fp = fopen(filename, "r")) == NULL)                    \
+    if ((ctx = EVP_MD_CTX_create()) == NULL)                    \
         return NULL;                                            \
+    EVP_DigestInit_ex(ctx, EVP_ ## TYPE(), NULL);               \
+    if ((fp = fopen(filename, "r")) == NULL) {                  \
+        EVP_MD_CTX_destroy(ctx);                                \
+        return NULL;                                            \
+    }                                                           \
     while ((r = fread(buf, 1, sizeof(buf), fp)) != 0)           \
-        PREFIX ## _Update(&ctx, buf, r);                        \
+        EVP_DigestUpdate(ctx, buf, r);                          \
     if (ferror(fp)) {                                           \
         fclose(fp);                                             \
+        EVP_MD_CTX_destroy(ctx);                                \
         return NULL;                                            \
     }                                                           \
     fclose(fp);                                                 \
-    PREFIX ## _Final(md, &ctx);                                 \
-    for (i = 0; i < LENGTH; i++)                                \
+    EVP_DigestFinal_ex(ctx, md, &mdlen);                        \
+    for (i = 0; i < mdlen; i++)                                 \
         sprintf(result + 2 * i, "%02x", md[i]);                 \
+    EVP_MD_CTX_destroy(ctx);                                    \
     return result;                                              \
 }
 
-#ifdef HAVE_OPENSSL_MD5_H
-DIGEST_FILE(MD5, MD5_CTX, MD5_DIGEST_LENGTH);
+#if HAVE_OPENSSL_MD5_H && HAVE_EVP_MD5
+DIGEST_FILE(MD5, md5);
 #endif
 
-#ifdef HAVE_OPENSSL_SHA_H
-DIGEST_FILE(SHA1, SHA_CTX, SHA_DIGEST_LENGTH);
-DIGEST_FILE(SHA256, SHA256_CTX, SHA256_DIGEST_LENGTH);
-DIGEST_FILE(SHA384, SHA512_CTX, SHA384_DIGEST_LENGTH);
-DIGEST_FILE(SHA512, SHA512_CTX, SHA512_DIGEST_LENGTH);
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA1
+DIGEST_FILE(SHA1, sha1);
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA256
+DIGEST_FILE(SHA256, sha256);
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA384
+DIGEST_FILE(SHA384, sha384);
+#endif
+#if HAVE_OPENSSL_SHA_H && HAVE_EVP_SHA512
+DIGEST_FILE(SHA512, sha512);
 #endif
 
-#ifdef HAVE_OPENSSL_RIPEMD_H
-DIGEST_FILE(RIPEMD160, RIPEMD160_CTX, RIPEMD160_DIGEST_LENGTH);
+#if HAVE_OPENSSL_RIPEMD_H && HAVE_EVP_RIPEMD160
+DIGEST_FILE(RIPEMD160, ripemd160);
 #endif
 
