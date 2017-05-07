@@ -55,7 +55,7 @@ static char sccsid[] = "@(#)mtree.c     8.1 (Berkeley) 6/6/93";
 #include "extern.h"
 
 int ftsoptions = FTS_PHYSICAL;
-int cflag, dflag, eflag, iflag, nflag, qflag, rflag, sflag, uflag, Uflag, wflag;
+int cflag, dflag, eflag, iflag, nflag, qflag, rflag, sflag, uflag, Uflag, wflag, vflag;
 u_int keys;
 char fullpath[MAXPATHLEN];
 
@@ -75,7 +75,7 @@ main(int argc, char *argv[])
         spec1 = stdin;
         spec2 = NULL;
 
-        while ((ch = getopt(argc, argv, "cdef:I:iK:k:LnPp:qrs:UuwxX:")) != -1)
+        while ((ch = getopt(argc, argv, "cdef:I:iK:k:LnPp:qrs:UuwVxX:")) != -1)
                 switch((char)ch) {
                 case 'c':
                         cflag = 1;
@@ -151,6 +151,9 @@ main(int argc, char *argv[])
                 case 'w':
                         wflag = 1;
                         break;
+                case 'V':
+                        vflag = 1;
+                        break;
                 case 'x':
                         ftsoptions |= FTS_XDEV;
                         break;
@@ -190,7 +193,7 @@ static void
 usage(void)
 {
         (void)fprintf(stderr,
-"usage: mtree [-LPUcdeinqruxw] [-f spec] [-K key] [-k key] [-p path] [-s seed]\n"
+"usage: mtree [-LPUcdeinqruVxw] [-f spec] [-K key] [-k key] [-p path] [-s seed]\n"
 "\t[-X excludes]\n");
         exit(1);
 }

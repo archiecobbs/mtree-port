@@ -55,6 +55,7 @@ static char path[MAXPATHLEN];
 
 static void     miss(NODE *, char *);
 static int      vwalk(void);
+static int      recursive_delete(char *dir);
 
 int
 mtree_verifyspec(FILE *fi)
@@ -142,10 +143,17 @@ extra:
                 if (!eflag) {
                         (void)printf("%s extra", RP(p));
                         if (rflag) {
-                                if ((S_ISDIR(p->fts_statp->st_mode)
-                                    ? rmdir : unlink)(p->fts_accpath)) {
-                                        (void)printf(", not removed: %s",
-                                            strerror(errno));
+                                if ((S_ISDIR(p->fts_statp->st_mode) ? rmdir : unlink)(p->fts_accpath)) {
+                                        if (errno == ENOTEMPTY && vflag) {
+                                            if (recursive_delete(p->fts_accpath) == -1) {
+                                                (void)printf(", not removed: %s",
+                                                    strerror(errno));
+                                            } else
+                                                (void)printf(", removed");
+                                        } else {
+                                            (void)printf(", not removed: %s",
+                                                strerror(errno));
+                                        }
                                 } else
                                         (void)printf(", removed");
                         }
@@ -157,6 +165,51 @@ extra:
         if (sflag)
                 warnx("%s checksum: %lu", fullpath, (unsigned long)crc_total);
         return (rval);
+}
+
+static int
+recursive_delete(char *dir)
+{
+    char *const files[] = { dir, NULL };
+    FTSENT *ent;
+    FTS *fts;
+
+    // Open dir
+    if ((fts = fts_open(files, FTS_NOCHDIR | FTS_PHYSICAL | FTS_XDEV, NULL)) == NULL)
+        return -1;
+
+    // Recurse and delete
+    while ((ent = fts_read(fts)) != NULL) {
+        switch (ent->fts_info) {
+        case FTS_NS:
+        case FTS_DNR:
+        case FTS_ERR:
+            printf(", error visiting %s: %s", ent->fts_accpath, strerror(ent->fts_errno));
+            fts_close(fts);
+            errno = ENOTEMPTY;
+            return -1;
+
+        case FTS_DP:
+        case FTS_F:
+        case FTS_SL:
+        case FTS_SLNONE:
+        case FTS_DEFAULT:
+            if (remove(ent->fts_accpath) == -1) {
+                printf(", error removing %s: %s", ent->fts_accpath, strerror(errno));
+                fts_close(fts);
+                errno = ENOTEMPTY;
+                return -1;
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    // Done
+    fts_close(fts);
+    return 0;
 }
 
 static void

@@ -36,7 +36,7 @@
 .Nd map a directory hierarchy
 .Sh SYNOPSIS
 .Nm
-.Op Fl LPUcdeinqruxw
+.Op Fl LPUcdeinqruVwx
 .Bk -words
 .Op Fl f Ar spec
 .Ek
@@ -164,12 +164,18 @@ instead of the current set of keywords.
 Use the file hierarchy rooted in
 .Ar path ,
 instead of the current directory.
+.It Fl r
+Remove any files in the file hierarchy that are not described in the specification.
 .It Fl s Ar seed
 Display a single checksum to the standard error output that represents all
 of the files for which the keyword
 .Cm cksum
 was specified.
 The checksum is seeded with the specified value.
+.It Fl V
+When
+.Fl r
+is specified, also recursively remove non-empty directories.
 .It Fl X Ar exclude-list
 The specified file contains
 .Xr fnmatch 3

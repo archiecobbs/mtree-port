@@ -83,7 +83,7 @@ char * RIPEMD160_File(const char *filename, char *result);
 extern int ftsoptions;
 extern u_int keys;
 extern int lineno;
-extern int dflag, eflag, iflag, nflag, qflag, rflag, sflag, uflag, wflag;
+extern int dflag, eflag, iflag, nflag, qflag, rflag, sflag, uflag, wflag, vflag;
 #ifdef MAXPATHLEN
 extern char fullpath[MAXPATHLEN];
 #endif
