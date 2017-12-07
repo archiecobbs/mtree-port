@@ -1,4 +1,4 @@
-Version Next
+Version 1.0.4 Released December 7, 2017
 
     - Fix build issue with OpenSSL 1.1.0 (issue #10)
     - Added `-V' flag (issue #9)

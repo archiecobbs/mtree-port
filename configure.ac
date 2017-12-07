@@ -2,7 +2,7 @@
 # mtree - Utility for creating and verifying file hierarchies
 # 
 
-AC_INIT([mtree Utility for creating and verifying file hierarchies], [1.0.3], [http://www.freebsd.org/], [mtree])
+AC_INIT([mtree Utility for creating and verifying file hierarchies], [1.0.4], [https://github.com/archiecobbs/mtree-port], [mtree])
 AC_CONFIG_AUX_DIR(scripts)
 AM_INIT_AUTOMAKE
 dnl AM_MAINTAINER_MODE
