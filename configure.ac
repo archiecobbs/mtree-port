@@ -35,7 +35,7 @@ AC_CHECK_HEADERS(dirent.h err.h errno.h fcntl.h fnmatch.h fts.h grp.h limits.h p
         [AC_MSG_ERROR([required header file '$ac_header' missing])])
 
 # Check for OpenSSL header files and functions
-AC_CHECK_HEADERS(openssl/md5.h openssl/sha.h openssl/ripemd.h,,)
+AC_CHECK_HEADERS(openssl/md5.h openssl/evp.h openssl/sha.h openssl/ripemd.h,,)
 AC_CHECK_FUNCS(EVP_md5 EVP_sha1 EVP_sha256 EVP_sha384 EVP_sha512 EVP_ripemd160,,)
 
 # Check for optional functions
