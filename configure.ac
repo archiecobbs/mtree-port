@@ -4,7 +4,7 @@
 
 AC_INIT([mtree Utility for creating and verifying file hierarchies], [1.0.4], [https://github.com/archiecobbs/mtree-port], [mtree])
 AC_CONFIG_AUX_DIR(scripts)
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign])
 dnl AM_MAINTAINER_MODE
 AC_PREREQ(2.59)
 AC_PREFIX_DEFAULT(/usr)
