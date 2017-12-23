@@ -27,7 +27,7 @@ AC_PROG_INSTALL
 AC_PROG_CC
 
 # Check for libcrypto library
-AC_CHECK_LIB(crypto, CRYPTO_thread_id,,)
+AC_CHECK_LIB(crypto, CRYPTO_malloc,,)
 
 # Check for required header files
 AC_HEADER_STDC
