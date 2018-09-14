@@ -15,7 +15,7 @@
 # 
 
 Name:           mtree
-Version:        1.0.1
+Version:        1.0.4
 Release:        1
 License:        BSD
 Summary:        Tool for creating and verifying file hierarchies
@@ -23,8 +23,10 @@ Group:          System/Utilities
 Source:         %{name}-%{version}.tar.gz
 URL:            http://www.freebsd.org./
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
-BuildRequires:  libopenssl-devel
+BuildRequires:  openssl-devel
 BuildRequires:  make
+BuildRequires:  automake
+BuildRequires:  autoconf
 BuildRequires:  gcc
 
 %description
@@ -38,6 +40,7 @@ hierarchy or the specification.
 %setup -q
 
 %build
+./autogen.sh
 %{configure}
 make
 
