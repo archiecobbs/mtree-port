@@ -1,3 +1,9 @@
+NOTE: This project is deprecated, replaced by this port of NetBSD's mtree:
+
+    https://github.com/archiecobbs/nmtree
+
+======================================
+
 mtree - Utility for creating and verifying file hierarchies
 
 This is a port of the BSD mtree(1) utility.
