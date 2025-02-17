@@ -212,8 +212,8 @@ statf(int indent, FTSENT *p)
                 output(indent, &offset, "size=%jd",
                     (intmax_t)p->fts_statp->st_size);
         if (keys & F_TIME)
-                output(indent, &offset, "time=%ld.%09ld",
-                    (long)p->fts_statp->st_mtimespec.tv_sec,
+                output(indent, &offset, "time=%ju.%09ld",
+                    (uintmax_t)p->fts_statp->st_mtimespec.tv_sec,
                     p->fts_statp->st_mtimespec.tv_nsec);
         if (keys & F_CKSUM && S_ISREG(p->fts_statp->st_mode)) {
                 if ((fd = open(p->fts_accpath, O_RDONLY, 0)) < 0 ||

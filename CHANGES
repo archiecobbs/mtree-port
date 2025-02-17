@@ -1,6 +1,7 @@
 Version Next
 
     - Fix another build issue with OpenSSL 1.1.0 (issue #10)
+    - Fix bug with timestamps after 2038 (issue #16)
 
 Version 1.0.4 Released December 7, 2017
 

@@ -265,7 +265,7 @@ set(char *t, NODE *ip)
                                 errx(1, "symlink %s is ill-encoded", val);
                         break;
                 case F_TIME:
-                        ip->st_mtimespec.tv_sec = strtoul(val, &ep, 10);
+                        ip->st_mtimespec.tv_sec = strtoull(val, &ep, 10);
                         if (*ep == '.') {
                                 /* Note: we require exactly nine
                                  * digits after the decimal point. */

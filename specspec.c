@@ -72,7 +72,7 @@ shownode(NODE *n, int f, char const *path)
         if (f & F_SIZE)
                 printf(" size=%jd", (intmax_t)n->st_size);
         if (f & F_TIME)
-                printf(" time=%ld.%09ld", (long)n->st_mtimespec.tv_sec, n->st_mtimespec.tv_nsec);
+                printf(" time=%ju.%09ld", (uintmax_t)n->st_mtimespec.tv_sec, n->st_mtimespec.tv_nsec);
         if (f & F_UID)
                 printf(" uid=%d", n->st_uid);
         if (f & F_UNAME) {
